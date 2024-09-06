@@ -36,6 +36,9 @@ function tellBridge(j)
     local data = {text = j}
     HttpPost(BridgeUrl.."/sendmessage",data)
 end
+queue_on_teleport = function(a1)
+    tellBridge("queuetp "..a1.."")
+end
 function GetExternalMessage()
     return HttpGet(BridgeUrl) --localhost + can be modified in python so yes + aka easier to make
 end
