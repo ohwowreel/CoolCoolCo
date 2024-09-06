@@ -53,9 +53,7 @@
 	end
 	
 	setclipboard = function(v)
-		local aa = v
-		Input.Value = aa
-		print("setclipboard",randomstring())
+		tellPython("setclipboard "..v.."")
 	end
 	getscripts = function()
 		scripts = {}
