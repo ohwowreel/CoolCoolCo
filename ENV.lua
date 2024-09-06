@@ -41,12 +41,12 @@
 	http.post = HttpPost
 	local BridgeUrl = "http://127.0.0.1:14346"
 	http_request = request
-	function tellBridge(j)
+	function tellPython(j)
 		local data = {text = j}
 		HttpPost(BridgeUrl.."/sendmessage",data)
 	end
 	queue_on_teleport = function(a1)
-		tellBridge("queuetp "..a1.."")
+		tellPython("queuetp "..a1.."")
 	end
 	function GetExternalMessage()
 		return HttpGet(BridgeUrl) --localhost + can be modified in python so yes + aka easier to make
@@ -85,6 +85,28 @@
 		return modules
 	end
 	local vim = Instance.new("VirtualInputManager")
+local InputValue = ""
+rconsolename = function(val)
+	tellPython("rconsolename "..val.."")
+end
+rconsoleprint = function(val)
+	tellPython("rconsoleprint "..val.."")
+end
+rconsoleerr = function(val)
+	tellPython("rconsoleerr "..val.."")
+end
+rconsolewarn = function(val)
+	tellPython("rconsolewarn "..val.."")
+end
+rconsoleinput = function()
+	tellPython("rconsoleinput")
+	while task.wait() do
+		if InputValue ~= "" then
+			InputValue = "
+			return InputValue
+		end
+	end
+end
 	local map = {
 		-- [0x03] = Enum.KeyCode.LeftControl + Enum.KeyCode.Break
 	
@@ -291,7 +313,7 @@
 	local files = {}
 	writefile = function(filename,content)
 		local j = "writefile "..filename..", "..content:gsub(",","COMA")..""
-		tellBridge(j)
+		tellPython(j)
 		files[filename] = content
 	end
 	addfile = function(filename,content)
@@ -319,14 +341,14 @@
 		end
 	end
 	rconsoleclear = function()
-		tellBridge("clearconsole")
+		tellPython("clearconsole")
 	end
 	setclipboard = function(a)
 		a = tostring(a)
 		if a == nil then
 			print("setclipboard - wrong argument #1")
 		end
-		tellBridge("setclipboaryhhgd "..a.."")
+		tellPython("setclipboaryhhgd "..a.."")
 	end
 	toclipboard = setclipboard
 	checkinstance = function(a)
