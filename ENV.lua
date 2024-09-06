@@ -52,8 +52,12 @@
 		return HttpGet(BridgeUrl) --localhost + can be modified in python so yes + aka easier to make
 	end
 	
-	setclipboard = function(v)
-		tellPython("setclipboard "..v.."")
+	setclipboard = function(vv)
+	local a = tostring(vv)
+		if a == nil then
+			print("setclipboard - wrong argument #1")
+		end
+		tellPython("setclipboard "..a.."")
 	end
 	getscripts = function()
 		scripts = {}
@@ -340,13 +344,6 @@ end
 	end
 	rconsoleclear = function()
 		tellPython("clearconsole")
-	end
-	setclipboard = function(a)
-		a = tostring(a)
-		if a == nil then
-			print("setclipboard - wrong argument #1")
-		end
-		tellPython("setclipboaryhhgd "..a.."")
 	end
 	toclipboard = setclipboard
 	checkinstance = function(a)
