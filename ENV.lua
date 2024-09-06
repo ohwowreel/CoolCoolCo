@@ -100,7 +100,7 @@ rconsoleinput = function()
 	tellPython("rconsoleinput")
 	while task.wait() do
 		if InputValue ~= "" then
-			InputValue = "
+			InputValue = ""
 			return InputValue
 		end
 	end
