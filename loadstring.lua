@@ -1,5 +1,4 @@
 LuauCeption = coroutine.wrap(function()
-	--!optimize 2
 --// LuauCeption - Compiler variant
 --// Luau 0.621 (9c2146288d78e8beacefe692ae1149fec066440e)
 
