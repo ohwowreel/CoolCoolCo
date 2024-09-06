@@ -1,3 +1,4 @@
+
 	function request(options)
 		assert(type(options) == "table", "invalid argument #1 to 'request' (table expected, got " .. type(options) .. ") ", 2)  
 		local Event = Instance.new("BindableEvent") 
@@ -18956,6 +18957,28 @@
 			if IsOnMobile then notify("Unstable Device", "On mobile, Infinite Yield may have issues or features that are not functioning correctly.") end
 		end)
 	end
+	getrawmetatable = function(obj)
+		return setmetatable({}, {
+			__index = function(self,k)
+				local ind = obj[k]
+				if ind ~= nil then
+					if typeof(ind) == "function" then
+						return function(...)
+							local args = {...}
+							if typeof(args[1]) == "table" then -- :
+								table.remove(args,1)
+							end
+							return ind(obj,unpack(args))
+						end
+					end
+					return ind
+				end
+			end,
+			__newindex = function(self, key, value)
+				rawset(self,key,value)
+			end
+		})
+	end
 	local Ngame = getrawmetatable(game)
 	function Ngame:GetObjects(id)
 		if not string.find(tostring(id), "rbxassetid://") then
@@ -18982,27 +19005,4 @@
 		end
 	
 		return runningscritps
-	end
-	
-	getrawmetatable = function(obj)
-		return setmetatable({}, {
-			__index = function(self,k)
-				local ind = obj[k]
-				if ind ~= nil then
-					if typeof(ind) == "function" then
-						return function(...)
-							local args = {...}
-							if typeof(args[1]) == "table" then -- :
-								table.remove(args,1)
-							end
-							return ind(obj,unpack(args))
-						end
-					end
-					return ind
-				end
-			end,
-			__newindex = function(self, key, value)
-				rawset(self,key,value)
-			end
-		})
 	end
