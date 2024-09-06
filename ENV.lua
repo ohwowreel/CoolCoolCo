@@ -366,60 +366,63 @@
 			end
 		})	
 	end
-	firetouchinterest = function(transmitter)
-		if not checkinstance(transmitter) then
-			error("Instance expected")
-		end
-		parent = nil
-		if not transmitter:IsA("TouchTransmitter") then
-			parent = transmitter
-		end
-		parent = transmitter.Parent
-		old = nil
-		clone = nil
-		colide = false
-		if parent:IsA("Model") then
-			old = parent:GetPivot().Position
-		else
-			old = parent.Position
-			clone = parent:Clone()
-			clone.Anchored = true
-			clone.Parent = parent.Parent
-			if parent.CanCollide == true then
-				colide = true
-				parent.CanCollide = false
-			end
-			parent.Transparency = 1
-		end
-		hadcollision = {}
-		for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
-			if v:IsA("BasePart") and v.CanCollide == true then
-				hadcollision[v] = v
-				v.CanCollide = false
-			end
-		end
-		if parent:IsA("Model") then
-			parent:MoveTo(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position)
-		else
-			parent.Position = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
-		end
-		wait()
-		if parent:IsA("Model") then
-			parent:MoveTo(old)
-		else
-			parent.Position = old
-			parent.Transparency = 0
-			clone:Destroy()
-			if colide == true then
-				parent.CanCollide = true
-			end
-		end
-		for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
-			if hadcollision[v] then
-				v.CanCollide = true
-			end
-		end
-	end
+crash = function()
+	while true do end
+end
+fireproximityprompt = function(p)
+ local Hold, Distance, Enabled, Thing, CFrame1= p.HoldDuration, p.MaxActivationDistance, p.Enabled, p.RequiresLineOfSight, nil
+ p.MaxActivationDistance = math.huge
+ p.HoldDuration = 0
+ p.Enabled = true
+ p.RequiresLineOfSight = false
+ local function get()
+  local classes = {'BasePart', 'Part', 'MeshPart'}
+  for _, v in pairs(classes) do
+   if p:FindFirstAncestorOfClass(v) then
+    return p:FindFirstAncestorOfClass(v)
+   end
+  end
+ end
+ local a = get()
+ if not a then
+  local parent = p.Parent
+  p.Parent = Instance.new("Part", workspace)
+  a = p.Parent
+ end
+ CFrame1 = a.CFrame
+ a.CFrame = game:GetService("Players").LocalPlayer.Character.Head.CFrame + game:GetService("Players").LocalPlayer.Character.Head.CFrame.LookVector * 2
+ task.wait()
+ p:InputHoldBegin()
+ task.wait()
+ p:InputHoldEnd()
+ p.HoldDuration = Hold
+ p.MaxActivationDistance = Distance
+ p.Enabled = Enabled
+ p.RequiresLineOfSight = Thing
+ a.CFrame = CFrame1
+ p.Parent = parent or p.Parent
+end
+firetouchinterest = function(toTouch, TouchWith, on)
+ if on == 0 then return end
+ if toTouch.ClassName == 'TouchTransmitter' then
+   local function get()
+    local classes = {'BasePart', 'Part', 'MeshPart'}
+    for _, v in pairs(classes) do
+    if toTouch:FindFirstAncestorOfClass(v) then
+     return toTouch:FindFirstAncestorOfClass(v)
+    end
+   end
+  end
+  toTouch = get()
+ end
+ local cf = toTouch.CFrame
+ local anc = toTouch.CanCollide
+ toTouch.CanCollide = false
+ toTouch.CFrame = TouchWith.CFrame
+ task.wait()
+ toTouch.CFrame = cf
+ toTouch.CanCollide = anc
+end
 	randomstring = function(l)
 		if l then
 			length = math.random(1,l)
