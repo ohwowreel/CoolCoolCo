@@ -98176,11 +98176,10 @@ local function luau_load(module, env, luau_settings)
 			local top, pc, open_upvalues, generalized_iterators = -1, 1, setmetatable({}, {__mode = "vs"}), setmetatable({}, {__mode = "ks"})
 			local constants = proto.k
 			local extensions = luau_settings.extensions
-			
-			while alive do
-				local inst = code[pc]
-				local op = inst.opcode
-
+for i,v in ipairs(code) do
+    if alive == false then break end
+local inst = code[pc]
+local op = inst.opcode
 				debugging.pc = pc
 				debugging.top = top
 				debugging.name = inst.opname
@@ -98802,7 +98801,7 @@ local function luau_load(module, env, luau_settings)
 				coroutine_close(iter)
 				generalized_iterators[i] = nil
 			end
-		end
+      end
 
 		local function wrapped(...)
 			local passed = table_pack(...)
