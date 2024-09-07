@@ -14,6 +14,9 @@
 		local response = request({ Url = url; Method = "GET"; }).Body
 		return response 
 	end
+gethui = function()
+	return game.CoreGui
+end
 	HttpPost = function(url,data)
 		local config = {
 			Url = url,
