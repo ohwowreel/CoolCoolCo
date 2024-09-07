@@ -98176,7 +98176,7 @@ local function luau_load(module, env, luau_settings)
 			local top, pc, open_upvalues, generalized_iterators = -1, 1, setmetatable({}, {__mode = "vs"}), setmetatable({}, {__mode = "ks"})
 			local constants = proto.k
 			local extensions = luau_settings.extensions
-for i,v in ipairs(code) do
+while true do
     if alive == false then break end
 local inst = code[pc]
 local op = inst.opcode
