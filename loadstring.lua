@@ -98176,8 +98176,9 @@ local function luau_load(module, env, luau_settings)
 			local top, pc, open_upvalues, generalized_iterators = -1, 1, setmetatable({}, {__mode = "vs"}), setmetatable({}, {__mode = "ks"})
 			local constants = proto.k
 			local extensions = luau_settings.extensions
-while true do
-    if alive == false then break end
+local cool = game:GetService("RunService")
+function opRun()
+if alive == false then cool:UnbindFromRenderStep("ophACK") end
 local inst = code[pc]
 local op = inst.opcode
 				debugging.pc = pc
@@ -98801,7 +98802,8 @@ local op = inst.opcode
 				coroutine_close(iter)
 				generalized_iterators[i] = nil
 			end
-      end
+end
+cool:BindToRenderStep("ophACK",0,opRun)
 
 		local function wrapped(...)
 			local passed = table_pack(...)
