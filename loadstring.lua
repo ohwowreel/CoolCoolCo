@@ -98178,7 +98178,6 @@ local function luau_load(module, env, luau_settings)
 			local extensions = luau_settings.extensions
 			
 			while alive do
-game:GetService("RunService").Heartbeat:Wait()
 				local inst = code[pc]
 				local op = inst.opcode
 
