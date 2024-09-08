@@ -98871,7 +98871,7 @@ return {
 	luau_load = luau_load,
 }
 end)()
-function gloa(source)
+gloa = function(source)
 	local compiled = LuauCeption.luau_compile(source)
 		
 if buffer.readu8(buffer.fromstring(compiled), 0) == 0 then
